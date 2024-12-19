@@ -30,7 +30,7 @@ class WeeklyFinancialSummary extends Component
             return;
         }
         if ($defaultBook->start_week_day_code != 'monday') {
-            $startWeek = today()->previous(constant('Carbon\Carbon::'.strtoupper($defaultBook->start_week_day_code)));
+            $startWeek = today()->previous(constant('Carbon\Carbon::' . strtoupper($defaultBook->start_week_day_code)));
             $this->startWeek = $startWeek->copy();
         }
         $this->bookVisibility = $defaultBook->report_visibility_code;

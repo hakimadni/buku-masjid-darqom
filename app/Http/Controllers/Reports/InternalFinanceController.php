@@ -24,8 +24,13 @@ class InternalFinanceController extends FinanceController
         $startDate = $this->getStartDate($request);
         $endDate = $this->getEndDate($request);
 
-        return view('reports.finance.'.$reportPeriode.'.dashboard', compact(
-            'year', 'months', 'month', 'book', 'startDate', 'endDate'
+        return view('reports.finance.' . $reportPeriode . '.dashboard', compact(
+            'year',
+            'months',
+            'month',
+            'book',
+            'startDate',
+            'endDate'
         ));
     }
 
@@ -44,13 +49,19 @@ class InternalFinanceController extends FinanceController
         $showLetterhead = $this->showLetterhead();
 
         $passedVariables = compact(
-            'year', 'months', 'month', 'book', 'startDate', 'endDate', 'showLetterhead'
+            'year',
+            'months',
+            'month',
+            'book',
+            'startDate',
+            'endDate',
+            'showLetterhead'
         );
 
         // return view('reports.finance.'.$reportPeriode.'.dashboard_pdf', $passedVariables);
-        $pdf = \PDF::loadView('reports.finance.'.$reportPeriode.'.dashboard_pdf', $passedVariables);
+        $pdf = \PDF::loadView('reports.finance.' . $reportPeriode . '.dashboard_pdf', $passedVariables);
 
-        return $pdf->stream(__('dashboard.dashboard').'.pdf');
+        return $pdf->stream(__('dashboard.dashboard') . '.pdf');
     }
 
     public function summary(Request $request)
@@ -75,10 +86,19 @@ class InternalFinanceController extends FinanceController
         $bankAccounts = BankAccount::where('is_active', BankAccount::STATUS_ACTIVE)->pluck('name', 'id')
             ->prepend(__('transaction.cash'), 'null');
 
-        return view('reports.finance.'.$reportPeriode.'.summary', compact(
-            'startDate', 'endDate', 'groupedTransactions', 'incomeCategories', 'bankAccounts',
-            'spendingCategories', 'lastBankAccountBalanceOfTheMonth', 'lastMonthDate',
-            'lastMonthBalance', 'currentMonthEndDate', 'reportPeriode', 'showBudgetSummary'
+        return view('reports.finance.' . $reportPeriode . '.summary', compact(
+            'startDate',
+            'endDate',
+            'groupedTransactions',
+            'incomeCategories',
+            'bankAccounts',
+            'spendingCategories',
+            'lastBankAccountBalanceOfTheMonth',
+            'lastMonthDate',
+            'lastMonthBalance',
+            'currentMonthEndDate',
+            'reportPeriode',
+            'showBudgetSummary'
         ));
     }
 
@@ -104,15 +124,24 @@ class InternalFinanceController extends FinanceController
         $showBudgetSummary = $this->determineBudgetSummaryVisibility($request, $book);
 
         $passedVariables = compact(
-            'startDate', 'endDate', 'groupedTransactions', 'incomeCategories',
-            'spendingCategories', 'lastBankAccountBalanceOfTheMonth', 'lastMonthDate',
-            'lastMonthBalance', 'currentMonthEndDate', 'showLetterhead', 'reportPeriode', 'showBudgetSummary'
+            'startDate',
+            'endDate',
+            'groupedTransactions',
+            'incomeCategories',
+            'spendingCategories',
+            'lastBankAccountBalanceOfTheMonth',
+            'lastMonthDate',
+            'lastMonthBalance',
+            'currentMonthEndDate',
+            'showLetterhead',
+            'reportPeriode',
+            'showBudgetSummary'
         );
 
         // return view('reports.finance.'.$reportPeriode.'.summary_pdf', $passedVariables);
-        $pdf = \PDF::loadView('reports.finance.'.$reportPeriode.'.summary_pdf', $passedVariables);
+        $pdf = \PDF::loadView('reports.finance.' . $reportPeriode . '.summary_pdf', $passedVariables);
 
-        return $pdf->stream(__('report.monthly', ['year_month' => $currentMonthEndDate->isoFormat('MMMM Y')]).'.pdf');
+        return $pdf->stream(__('report.monthly', ['year_month' => $currentMonthEndDate->isoFormat('MMMM Y')]) . '.pdf');
     }
 
     public function categorized(Request $request)
@@ -130,9 +159,15 @@ class InternalFinanceController extends FinanceController
         $bankAccounts = BankAccount::where('is_active', BankAccount::STATUS_ACTIVE)->pluck('name', 'id')
             ->prepend(__('transaction.cash'), 'null');
 
-        return view('reports.finance.'.$reportPeriode.'.categorized', compact(
-            'startDate', 'endDate', 'currentMonthEndDate', 'reportPeriode', 'bankAccounts',
-            'groupedTransactions', 'incomeCategories', 'spendingCategories'
+        return view('reports.finance.' . $reportPeriode . '.categorized', compact(
+            'startDate',
+            'endDate',
+            'currentMonthEndDate',
+            'reportPeriode',
+            'bankAccounts',
+            'groupedTransactions',
+            'incomeCategories',
+            'spendingCategories'
         ));
     }
 
@@ -151,15 +186,20 @@ class InternalFinanceController extends FinanceController
 
         $reportPeriode = $book->report_periode_code;
         $passedVariables = compact(
-            'startDate', 'endDate', 'currentMonthEndDate',
-            'groupedTransactions', 'incomeCategories', 'spendingCategories',
-            'showLetterhead', 'reportPeriode'
+            'startDate',
+            'endDate',
+            'currentMonthEndDate',
+            'groupedTransactions',
+            'incomeCategories',
+            'spendingCategories',
+            'showLetterhead',
+            'reportPeriode'
         );
 
         // return view('reports.finance.'.$reportPeriode.'.categorized_pdf', $passedVariables);
-        $pdf = \PDF::loadView('reports.finance.'.$reportPeriode.'.categorized_pdf', $passedVariables);
+        $pdf = \PDF::loadView('reports.finance.' . $reportPeriode . '.categorized_pdf', $passedVariables);
 
-        return $pdf->stream(__('report.categorized_transactions', ['year_month' => $currentMonthEndDate->isoFormat('MMMM Y')]).'.pdf');
+        return $pdf->stream(__('report.categorized_transactions', ['year_month' => $currentMonthEndDate->isoFormat('MMMM Y')]) . '.pdf');
     }
 
     public function detailed(Request $request)
@@ -176,9 +216,14 @@ class InternalFinanceController extends FinanceController
         $bankAccounts = BankAccount::where('is_active', BankAccount::STATUS_ACTIVE)->pluck('name', 'id')
             ->prepend(__('transaction.cash'), 'null');
 
-        return view('reports.finance.'.$reportPeriode.'.detailed', compact(
-            'startDate', 'endDate', 'groupedTransactions', 'currentMonthEndDate',
-            'reportPeriode', 'lastMonthDate', 'bankAccounts'
+        return view('reports.finance.' . $reportPeriode . '.detailed', compact(
+            'startDate',
+            'endDate',
+            'groupedTransactions',
+            'currentMonthEndDate',
+            'reportPeriode',
+            'lastMonthDate',
+            'bankAccounts'
         ));
     }
 
@@ -194,14 +239,19 @@ class InternalFinanceController extends FinanceController
         $reportPeriode = $book->report_periode_code;
         $lastMonthDate = Carbon::parse($startDate)->subDay();
         $passedVariables = compact(
-            'startDate', 'endDate', 'groupedTransactions', 'lastMonthDate',
-            'currentMonthEndDate', 'showLetterhead', 'reportPeriode'
+            'startDate',
+            'endDate',
+            'groupedTransactions',
+            'lastMonthDate',
+            'currentMonthEndDate',
+            'showLetterhead',
+            'reportPeriode'
         );
 
         // return view('reports.finance.'.$reportPeriode.'.detailed_pdf', $passedVariables);
-        $pdf = \PDF::loadView('reports.finance.'.$reportPeriode.'.detailed_pdf', $passedVariables);
+        $pdf = \PDF::loadView('reports.finance.' . $reportPeriode . '.detailed_pdf', $passedVariables);
 
-        return $pdf->stream(__('report.weekly', ['year_month' => $currentMonthEndDate->isoFormat('MMMM Y')]).'.pdf');
+        return $pdf->stream(__('report.weekly', ['year_month' => $currentMonthEndDate->isoFormat('MMMM Y')]) . '.pdf');
     }
 
     private function getWeeklyGroupedTransactions(string $startDate, string $endDate): Collection

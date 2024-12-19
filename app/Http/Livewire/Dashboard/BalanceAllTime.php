@@ -20,9 +20,7 @@ class BalanceAllTime extends Component
 
     public function render()
     {
-        if ($this->isForPrint) {
-            $this->getBalanceAllTimeSummary();
-        }
+        $this->getBalanceAllTimeSummary();
 
         return view('livewire.dashboard.balance_all_time');
     }
@@ -36,7 +34,7 @@ class BalanceAllTime extends Component
 
     private function calculateBalanceAllTimeSummary()
     {
-        $cacheKey = 'calculateBalanceAllTimeSummary_'.$this->startDate->format('Y-m-d').'_'.$this->endDate->format('Y-m-d');
+        $cacheKey = 'calculateBalanceAllTimeSummary_' . $this->startDate->format('Y-m-d') . '_' . $this->endDate->format('Y-m-d');
         $duration = now()->addSeconds(10);
 
         if (Cache::has($cacheKey)) {
@@ -69,7 +67,7 @@ class BalanceAllTime extends Component
         $reports = [];
         foreach ($reportsData as $report) {
             $monthNumber = str_pad($report->month, 2, '0', STR_PAD_LEFT);
-            $key = $report->year.'-'.$monthNumber;
+            $key = $report->year . '-' . $monthNumber;
             $reports[$key] = (array) $report;
             $reports[$key]['month_number'] = $monthNumber;
             $reports[$key]['balance'] = $report->income - $report->spending;

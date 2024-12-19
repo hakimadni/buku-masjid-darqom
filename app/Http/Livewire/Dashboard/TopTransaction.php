@@ -18,9 +18,8 @@ class TopTransaction extends Component
 
     public function render()
     {
-        if ($this->isForPrint) {
-            $this->getTopTransactionSummary();
-        }
+        $this->getTopTransactionSummary();
+
 
         return view('livewire.dashboard.top_transaction');
     }
@@ -33,7 +32,7 @@ class TopTransaction extends Component
 
     private function calculateTopTransactionSummary()
     {
-        $cacheKey = 'calculateTopTransactionSummary_'.$this->startDate->format('Y-m-d').'_'.$this->endDate->format('Y-m-d').'_'.$this->typeCode;
+        $cacheKey = 'calculateTopTransactionSummary_' . $this->startDate->format('Y-m-d') . '_' . $this->endDate->format('Y-m-d') . '_' . $this->typeCode;
         $duration = now()->addSeconds(10);
 
         if (Cache::has($cacheKey)) {

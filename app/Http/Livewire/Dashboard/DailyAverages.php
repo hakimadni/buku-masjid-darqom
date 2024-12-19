@@ -19,9 +19,7 @@ class DailyAverages extends Component
 
     public function render()
     {
-        if ($this->isForPrint) {
-            $this->getDailyAveragesSummary();
-        }
+        $this->getDailyAveragesSummary();
 
         return view('livewire.dashboard.daily_averages');
     }
@@ -34,7 +32,7 @@ class DailyAverages extends Component
 
     private function calculateDailyAveragesSummary()
     {
-        $cacheKey = 'calculateDailyAveragesSummary_'.$this->startDate->format('Y-m-d').'_'.$this->endDate->format('Y-m-d');
+        $cacheKey = 'calculateDailyAveragesSummary_' . $this->startDate->format('Y-m-d') . '_' . $this->endDate->format('Y-m-d');
         $duration = now()->addSeconds(10);
 
         if (Cache::has($cacheKey)) {
@@ -52,7 +50,7 @@ class DailyAverages extends Component
         $dailyAveragesSummary->each(function ($totalTransaction) use ($dayCount) {
             $typeCode = $totalTransaction->in_out == 1 ? 'income' : 'spending';
             $totalTransaction->type_code = $typeCode;
-            $totalTransaction->description = __('transaction.'.$typeCode).' / '.__('time.day_name');
+            $totalTransaction->description = __('transaction.' . $typeCode) . ' / ' . __('time.day_name');
             $totalTransaction->day_count = $dayCount;
             $totalTransaction->average = $totalTransaction->total / $dayCount;
         });

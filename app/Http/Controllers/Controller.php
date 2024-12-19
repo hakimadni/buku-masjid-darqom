@@ -17,23 +17,24 @@ class Controller extends BaseController
 
     protected function getYearMonth()
     {
-        $date = request('date');
+        $date = request('date', 1); // Default to 1 if 'date' is not provided
         $year = request('year', date('Y'));
         $month = request('month', date('m'));
-        $yearMonth = $year.'-'.$month;
+        $yearMonth = $year . '-' . $month;
 
         $explodedYearMonth = explode('-', $yearMonth);
 
-        if (count($explodedYearMonth) == 2 && checkdate($explodedYearMonth[1], '01', $explodedYearMonth[0])) {
-            if (checkdate($explodedYearMonth[1], $date, $explodedYearMonth[0])) {
-                return $explodedYearMonth[0].'-'.$explodedYearMonth[1].'-'.$date;
+        if (count($explodedYearMonth) == 2 && checkdate((int) $explodedYearMonth[1], 1, (int) $explodedYearMonth[0])) {
+            if (checkdate((int) $explodedYearMonth[1], (int) $date, (int) $explodedYearMonth[0])) {
+                return $explodedYearMonth[0] . '-' . $explodedYearMonth[1] . '-' . $date;
             }
 
-            return $explodedYearMonth[0].'-'.$explodedYearMonth[1];
+            return $explodedYearMonth[0] . '-' . $explodedYearMonth[1];
         }
 
         return date('Y-m');
     }
+
 
     protected function getTansactions($yearMonth)
     {
@@ -42,8 +43,8 @@ class Controller extends BaseController
         $bankAccountId = request('bank_account_id');
 
         $transactionQuery = Transaction::query();
-        $transactionQuery->where('date', 'like', $yearMonth.'%');
-        $transactionQuery->where('description', 'like', '%'.request('query').'%');
+        $transactionQuery->where('date', 'like', $yearMonth . '%');
+        $transactionQuery->where('description', 'like', '%' . request('query') . '%');
 
         $transactionQuery->when($categoryId, function ($queryBuilder, $categoryId) {
             if ($categoryId == 'null') {
@@ -80,7 +81,7 @@ class Controller extends BaseController
 
         $transactionQuery = Transaction::query();
         $transactionQuery->whereBetween('date', [$startDate, $endDate]);
-        $transactionQuery->where('description', 'like', '%'.request('query').'%');
+        $transactionQuery->where('description', 'like', '%' . request('query') . '%');
 
         $transactionQuery->when($categoryId, function ($queryBuilder, $categoryId) {
             if ($categoryId == 'null') {
@@ -142,7 +143,7 @@ class Controller extends BaseController
         $transactionQuery = $category->transactions();
         $transactionQuery->whereBetween('date', [$startDate, $endDate]);
         $transactionQuery->when($query, function ($queryBuilder, $query) {
-            $queryBuilder->where('description', 'like', '%'.$query.'%');
+            $queryBuilder->where('description', 'like', '%' . $query . '%');
         });
 
         return $transactionQuery->orderBy('date', 'desc')->with('book')->get();
@@ -158,7 +159,7 @@ class Controller extends BaseController
         $transactionQuery = $book->transactions();
 
         $transactionQuery->when($query, function ($queryBuilder, $query) {
-            $queryBuilder->where('description', 'like', '%'.$query.'%');
+            $queryBuilder->where('description', 'like', '%' . $query . '%');
         });
 
         $transactionQuery->whereBetween('date', [$startDate, $endDate]);
@@ -177,10 +178,10 @@ class Controller extends BaseController
     protected function getAudienceCodeList(): array
     {
         return [
-            Lecturing::AUDIENCE_FRIDAY => __('lecturing.audience_'.Lecturing::AUDIENCE_FRIDAY),
-            Lecturing::AUDIENCE_PUBLIC => __('lecturing.audience_'.Lecturing::AUDIENCE_PUBLIC),
-            Lecturing::AUDIENCE_MUSLIMAH => __('lecturing.audience_'.Lecturing::AUDIENCE_MUSLIMAH),
-            Lecturing::AUDIENCE_TARAWIH => __('lecturing.audience_'.Lecturing::AUDIENCE_TARAWIH),
+            Lecturing::AUDIENCE_FRIDAY => __('lecturing.audience_' . Lecturing::AUDIENCE_FRIDAY),
+            Lecturing::AUDIENCE_PUBLIC => __('lecturing.audience_' . Lecturing::AUDIENCE_PUBLIC),
+            Lecturing::AUDIENCE_MUSLIMAH => __('lecturing.audience_' . Lecturing::AUDIENCE_MUSLIMAH),
+            Lecturing::AUDIENCE_TARAWIH => __('lecturing.audience_' . Lecturing::AUDIENCE_TARAWIH),
         ];
     }
 }

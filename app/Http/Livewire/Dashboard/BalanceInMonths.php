@@ -21,9 +21,7 @@ class BalanceInMonths extends Component
 
     public function render()
     {
-        if ($this->isForPrint) {
-            $this->getBalanceInMonthsSummary();
-        }
+        $this->getBalanceInMonthsSummary();
 
         return view('livewire.dashboard.balance_in_months');
     }
@@ -37,7 +35,7 @@ class BalanceInMonths extends Component
 
     private function calculateBalanceInMonthsSummary()
     {
-        $cacheKey = 'calculateBalanceInMonthsSummary_'.$this->startDate->format('Y-m-d').'_'.$this->endDate->format('Y-m-d');
+        $cacheKey = 'calculateBalanceInMonthsSummary_' . $this->startDate->format('Y-m-d') . '_' . $this->endDate->format('Y-m-d');
         $duration = now()->addSeconds(10);
 
         if (Cache::has($cacheKey)) {

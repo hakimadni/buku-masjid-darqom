@@ -18,9 +18,7 @@ class TopCategory extends Component
 
     public function render()
     {
-        if ($this->isForPrint) {
-            $this->getTopCategorySummary();
-        }
+        $this->getTopCategorySummary();
 
         return view('livewire.dashboard.top_category');
     }
@@ -33,18 +31,20 @@ class TopCategory extends Component
 
     private function calculateTopCategorySummary()
     {
-        $cacheKey = 'calculateTopCategorySummary_'.$this->startDate->format('Y-m-d').'_'.$this->endDate->format('Y-m-d').'_'.$this->typeCode;
+        $cacheKey = 'calculateTopCategorySummary_' . $this->startDate->format('Y-m-d') . '_' . $this->endDate->format('Y-m-d') . '_' . $this->typeCode;
         $duration = now()->addSeconds(10);
 
         if (Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
         }
-        $color = config('masjid.'.$this->typeCode.'_color');
+        $color = config('masjid.' . $this->typeCode . '_color');
         $topCategorySummary = Category::where('color', $color)
             ->where('book_id', $this->book->id)
-            ->withSum(['transactions' => function ($query) {
-                $query->whereBetween('date', [$this->startDate->format('Y-m-d'), $this->endDate->format('Y-m-d')]);
-            }], 'amount')
+            ->withSum([
+                'transactions' => function ($query) {
+                    $query->whereBetween('date', [$this->startDate->format('Y-m-d'), $this->endDate->format('Y-m-d')]);
+                }
+            ], 'amount')
             ->get()
             ->sortByDesc('transactions_sum_amount')
             ->take(5);

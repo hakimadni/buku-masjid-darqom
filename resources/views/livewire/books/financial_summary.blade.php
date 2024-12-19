@@ -3,8 +3,10 @@
         @if ($currentBudget)
             <tr>
                 <td colspan="2">
-                    <div class="progress progress-sm" title="{{ __('report.current_periode_income_total') }}: {{ $progressPercent }}%">
-                        <div class="progress-bar bg-{{ $progressPercentColor }}" style="width: {{ $progressPercent }}%"></div>
+                    <div class="progress progress-sm"
+                        title="{{ __('report.current_periode_income_total') }}: {{ $progressPercent }}%">
+                        <div class="progress-bar bg-{{ $progressPercentColor }}" style="width: {{ $progressPercent }}%">
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -20,7 +22,8 @@
             @if (!$isAlltime)
                 <tr>
                     <td class="col-4">
-                        <span id="start_periode_label">{{ __('report.balance_per_date', ['date' => $start->subDay()->isoFormat('dddd, D MMM Y')]) }}</span>
+                        <span
+                            id="start_periode_label">{{ __('report.balance_per_date', ['date' => $start->subDay()->isoFormat('dddd, D MMM Y')]) }}</span>
                     </td>
                     <td class="col-1 text-right">
                         <span id="start_periode_balance">{{ format_number($startBalance) }}</span>
@@ -51,12 +54,14 @@
                     <span>{{ __('report.current_periode_spending_total') }}</span>
                 </td>
                 <td class="col-1 text-right">
-                    <span id="current_periode_spending_total">{{ format_number($currentSpendingTotal ? -$currentSpendingTotal : 0) }}</span>
+                    <span
+                        id="current_periode_spending_total">{{ format_number($currentSpendingTotal ? -$currentSpendingTotal : 0) }}</span>
                 </td>
             </tr>
             <tr>
-                <td class="col-4">
-                    <span id="current_balance_label">{{ __('report.today_balance', ['date' => $today->isoFormat('dddd, D MMM Y')]) }}</span>
+                <td class="col-4 123">
+                    <span
+                        id="current_balance_label">{{ __('report.today_balance', ['date' => $today->isoFormat('dddd, D MMM Y')]) }}</span>
                 </td>
                 <td class="col-1 text-right">
                     <span id="current_balance">{{ format_number($currentBalance) }}</span>

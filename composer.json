@@ -23,7 +23,7 @@
         "laravel/slack-notification-channel": "^3.3",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^4.0",
-        "livewire/livewire": "^2.12",
+        "livewire/livewire": "^3.5",
         "luthfi/formfield": "^3.1",
         "misterspelik/laravel-pdf": "^1.1",
         "nunomaduro/collision": "^7.7",
